@@ -7,6 +7,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import BeforeScreen from './src/screens/BeforeScreen';
 import TopicsScreen from './src/screens/TopicsScreen';
 import ReadScreen from './src/screens/ReadScreen';
+import AncientScreen from './src/screens/AncientScreen';
+import AncientReadScreen from './src/screens/ReadAncientScreen';
+import ArtifactsScreen from './src/screens/ArtifactsScreen';
 
 enableScreens();
 
@@ -67,6 +70,21 @@ const App = () => {
                 <Stack.Screen 
                       name="ReadScreen" 
                       component={ReadScreen} 
+                      options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                      name="AncientScreen" 
+                      component={AncientScreen} 
+                      options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                      name="AncientReadScreen" 
+                      component={AncientReadScreen} 
+                      options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                      name="ArtifactsScreen" 
+                      component={ArtifactsScreen} 
                       options={{ headerShown: false }} 
                 />
             </Stack.Navigator>
