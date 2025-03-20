@@ -46,7 +46,7 @@ const Settings = () => {
                 </View>
             </View>
 
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity style={styles.btn} onPress={resetProgress}>
                 <Text style={styles.btnText}>Reset Progress</Text>
             </TouchableOpacity>    
 
