@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import ancient from "../constants/ancient";
 
-const { height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 const Topics = () => {
     const navigation = useNavigation();
@@ -56,7 +56,7 @@ const Topics = () => {
             {
                 index === 1 && (
                     <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
-                        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginLeft: -35}}>
+                        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                             <TouchableOpacity onPress={() => setSelectedFirst(null)}>
                                 <Image source={selectedFirst ? selectedFirst.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
                             </TouchableOpacity>
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     logo: {
         width: 162,
         height: 146,
-        marginBottom: height * 0.1
+        marginBottom: height * 0.05
     },
 
     btn: {
@@ -159,7 +159,8 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: '#fff',
         position: 'absolute',
-        bottom: height * 0.12
+        bottom: height * 0.12,
+        zIndex: 10
     },
 
     btnText: {
@@ -171,13 +172,13 @@ const styles = StyleSheet.create({
 
     selectedCard: {
         width: 173,
-        height: height * 0.26,
+        height: height * 0.23,
         resizeMode: 'contain',
         marginBottom: 50
     },
 
     card: {
-        width: 144,
+        width: 142,
         height: height * 0.17,
         resizeMode: 'contain',
         marginBottom: 30,

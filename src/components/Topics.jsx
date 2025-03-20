@@ -72,10 +72,10 @@ const Topics = () => {
                         <Text style={styles.title}>{selectedItem ? selectedItem.name : selected.name}</Text>
                         {
                             !selectedItem && (
-                                <View style={[styles.line, {zIndex: 10, marginBottom: 50}]} />
+                                <View style={[styles.line, {zIndex: 10, marginBottom: height * 0.05}]} />
                             )
                         }
-                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', marginLeft: 70, marginTop: 20}}>
+                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', marginLeft: 70, marginTop: height * 0.02}}>
                             {
                                 selected.items.map((item, index) => (
                                     <TouchableOpacity key={index} onPress={() => setSelectedItem(item)}>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     logo: {
         width: 162,
         height: 146,
-        marginBottom: height * 0.1
+        marginBottom: height * 0.05
     },
 
     btn: {
@@ -146,7 +146,8 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: '#fff',
         position: 'absolute',
-        bottom: height * 0.12
+        bottom: height * 0.12,
+        zIndex: 10
     },
 
     btnText: {
@@ -158,14 +159,14 @@ const styles = StyleSheet.create({
 
     selectedCard: {
         width: 173,
-        height: height * 0.26,
+        height: height * 0.23,
         resizeMode: 'contain',
         alignSelf: 'center',
         marginBottom: 50
     },
 
     card: {
-        width: 144,
+        width: 142,
         height: height * 0.17,
         resizeMode: 'contain',
         marginBottom: 30,

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Modal } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Modal, ScrollView } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from "@react-navigation/native";
 import game from "../constants/game";
@@ -99,7 +99,7 @@ const Game = () => {
 
             {
                 index !== 0 && (
-                    <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end'}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end', marginBottom: height * 0.04}}>
                         <Text style={styles.points}>{points}</Text>
                         <View style={{width: 26, height: 26, marginLeft: 10}}>
                             <Icons type={'points'} />
@@ -123,10 +123,10 @@ const Game = () => {
 
             {
                 index === 1 && (
-                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', flexWrap: 'wrap'}}>
+                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-around', flexWrap: 'wrap'}}>
                         {
                             game.map((item, index) => (
-                                <View key={index} style={{marginBottom: height * 0.05, alignItems: 'center'}}>
+                                <View key={index} style={{marginBottom: height * 0.03, alignItems: 'center'}}>
                                     <TouchableOpacity 
                                         style={[styles.levelBtn, selectedLevel.level === item.level && unlockedLevels[item.level] && purchasedLevels[item.level] && {backgroundColor: '#cd2027'}]} 
                                         onPress={() => unlockedLevels[item.level] && purchaseLevel(item) && setSelectedLevel(item)}
@@ -165,19 +165,21 @@ const Game = () => {
 
             {index === 2 && (
                 <View style={styles.gameContainer}>
-                    <View style={styles.itemsContainer}>
+                    <ScrollView contentContainerStyle={styles.itemsContainer}>
                         {selectedLevel.items.map((item, idx) => (
                             <TouchableOpacity key={idx} onPress={() => handleItemSelect(item)}>
                                 <Image source={item} style={styles.itemImage} />
                             </TouchableOpacity>
                         ))}
-                    </View>
+                    </ScrollView>
                     <View style={styles.selectedItemsContainer}>
-                        {selectedItems.map((item, idx) => (
-                            <TouchableOpacity key={idx} onPress={() => handleItemUnselect(item)}>
-                                <Image key={idx} source={item} style={styles.itemImage} />
-                            </TouchableOpacity>
-                        ))}
+                        <ScrollView contentContainerStyle={styles.scroll}>
+                            {selectedItems.map((item, idx) => (
+                                <TouchableOpacity key={idx} onPress={() => handleItemUnselect(item)}>
+                                    <Image key={idx} source={item} style={styles.itemImage} />
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
                     </View>
                 </View>
             )}
@@ -243,7 +245,7 @@ const styles = StyleSheet.create({
     logo: {
         width: 162,
         height: 146,
-        marginBottom: height * 0.1
+        marginBottom: height * 0.05
     },
 
     btn: {
@@ -265,8 +267,8 @@ const styles = StyleSheet.create({
     },
 
     levelBtn: {
-        width: 100,
-        height: 100,
+        width: height * 0.1,
+        height: height * 0.1,
         borderRadius: 8,
         backgroundColor: '#898686',
         marginBottom: 11,
@@ -299,18 +301,24 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap', 
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        maxHeight: height * 0.3
     },
 
     selectedItemsContainer: { 
-        marginTop: height * 0.1, 
-        flexDirection: 'row',
+        marginTop: height * 0.05, 
         padding: 20,
         backgroundColor: '#fff',
         borderRadius: 8,
         width: '100%',
         minHeight: 110,
-        flexWrap: 'wrap'
+        maxHeight: 200,
+    },
+
+    scroll: { 
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around'
     },
 
     itemImage: { 

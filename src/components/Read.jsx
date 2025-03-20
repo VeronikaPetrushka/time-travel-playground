@@ -18,6 +18,7 @@ const Read = ({ item }) => {
 
             <ScrollView style={{width: '100%'}}>
                 <Text style={styles.text}>{item.description}</Text>
+                <View style={{height: 100}} />
             </ScrollView>
 
         </View>

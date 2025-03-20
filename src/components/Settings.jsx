@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     logo: {
         width: 162,
         height: 146,
-        marginBottom: height * 0.1
+        marginBottom: height * 0.05
     },
 
     musicContainer: {
