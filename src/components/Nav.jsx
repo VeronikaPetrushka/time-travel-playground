@@ -32,8 +32,8 @@ const Menu = () => {
 
             <TouchableOpacity 
                 style={styles.button} 
-                onPress={() => handleNavigate('ArtifactsScreen')}>
-                <Icons type={'2'} active={activeButton === 'ArtifactsScreen'}/>
+                onPress={() => handleNavigate('GameScreen')}>
+                <Icons type={'2'} active={activeButton === 'GameScreen'}/>
             </TouchableOpacity>
 
             <TouchableOpacity 

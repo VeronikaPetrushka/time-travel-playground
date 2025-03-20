@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from "react-native"
 import { useFocusEffect } from "@react-navigation/native";
 import artifacts from "../constants/artifacts";
+import Icons from "./Icons";
 
 const { height } = Dimensions.get('window');
 
@@ -28,13 +29,15 @@ const Artifacts = () => {
 
     const handleNext = () => {
         if(index === 2) {
-            setIndex(0);
+            setIndex(1);
+            setSelectedFirst(null);
+            setSelectedSecond(null);
         } else {
             setIndex((prevIndex) => (prevIndex + 1) % 3); 
         }
     };
 
-    const correct = selectedFirst.pair === selectedSecond.image;
+    const correct = selectedFirst?.pair === selectedSecond?.image;
 
     return (
         <View style={styles.container}>
@@ -79,8 +82,8 @@ const Artifacts = () => {
 
             {
                 (index === 2 && selectedFirst !== null && selectedSecond !== null) && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
-                        <Text style={styles.text}>{correct ? selectedFirst.description : 'You are wrong! Try again and find the correct pair.'}</Text>
+                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1, marginTop: height * 0.15}}>
+                        <Text style={[styles.text, {textAlign: 'center'}]}>{correct ? selectedFirst.description : 'You are wrong! Try again and find the correct pair.'}</Text>
                         <View style={[styles.line, {marginTop: 18, marginBottom: height * 0.15}]} />
                     </View>
                 )
@@ -89,8 +92,16 @@ const Artifacts = () => {
             {
                 (index !== 2 || (selectedFirst !== null && selectedSecond !== null)) && (
                     <TouchableOpacity style={[styles.btn, index === 1 && (!selectedFirst || !selectedSecond) && {opacity: 0.5}]} disabled={index === 1 && (!selectedFirst || !selectedSecond)} onPress={handleNext}>
-                        <Text style={styles.btnText}>{index === 0 ? 'Step Through' : 'Check'}</Text>
+                        <Text style={styles.btnText}>{index === 0 ? 'Step Through' : index === 1 ? 'Check' : 'Back to selection'}</Text>
                     </TouchableOpacity>    
+                )
+            }
+
+            {
+                index === 2 && (
+                    <View style={{width: 51, height: 51, position: 'absolute', bottom: height * 0.3, alignSelf: 'center'}}>
+                        <Icons type={correct ? 'correct' : 'wrong'} />
+                    </View>
                 )
             }
 

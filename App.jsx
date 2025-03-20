@@ -4,12 +4,17 @@ import { enableScreens } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { MusicProvider } from './src/constants/music';
+import Player from './src/components/Player';
+
 import BeforeScreen from './src/screens/BeforeScreen';
 import TopicsScreen from './src/screens/TopicsScreen';
 import ReadScreen from './src/screens/ReadScreen';
 import AncientScreen from './src/screens/AncientScreen';
 import AncientReadScreen from './src/screens/ReadAncientScreen';
 import ArtifactsScreen from './src/screens/ArtifactsScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
+import GameScreen from './src/screens/GameScreen';
 
 enableScreens();
 
@@ -50,6 +55,8 @@ const LoadingScreen = ({ navigation }) => {
 const App = () => {
 
   return (
+    <MusicProvider>
+        <Player />
         <NavigationContainer>
             <Stack.Navigator initialRouteName={"LoadingScreen" }>    
                 <Stack.Screen 
@@ -87,8 +94,19 @@ const App = () => {
                       component={ArtifactsScreen} 
                       options={{ headerShown: false }} 
                 />
+                <Stack.Screen 
+                      name="SettingsScreen" 
+                      component={SettingsScreen} 
+                      options={{ headerShown: false }} 
+                />
+                <Stack.Screen 
+                      name="GameScreen" 
+                      component={GameScreen} 
+                      options={{ headerShown: false }} 
+                />
             </Stack.Navigator>
         </NavigationContainer>
+    </MusicProvider>
     );
 };
 

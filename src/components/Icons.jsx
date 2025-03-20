@@ -30,6 +30,15 @@ const Icons = ({ type, active }) => {
     case 'back':
       imageSource = require('../assets/icons/back.png');
       break;
+    case 'correct':
+      imageSource = require('../assets/icons/correct.png');
+      break;
+    case 'wrong':
+      imageSource = require('../assets/icons/wrong.png');
+      break;
+    case 'points':
+      imageSource = require('../assets/icons/points.png');
+      break;
   }
 
   return (
