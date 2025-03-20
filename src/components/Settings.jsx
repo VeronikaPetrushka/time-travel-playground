@@ -11,11 +11,14 @@ const Settings = () => {
 
     const resetProgress = async () => {
         try {
-            await AsyncStorage.removeItem("profile");
-            Alert.alert("Success", "All game data has been reset.");
+            await AsyncStorage.removeItem("user");
+            await AsyncStorage.removeItem("points");
+            await AsyncStorage.removeItem("unlockedLevels");
+            await AsyncStorage.removeItem("purchasedLevels");
+            Alert.alert("Success", "Entire progress has been reset along with your profile.");
         } catch (error) {
             console.error("Failed to reset progress", error);
-            Alert.alert("Error", "Failed to reset data.");
+            Alert.alert("Error", "Failed to reset progress.");
         }
     };
 
