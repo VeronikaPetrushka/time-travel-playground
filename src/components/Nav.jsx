@@ -3,7 +3,7 @@ import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import Icons from './Icons';
 
-const Menu = () => {
+const Nav = () => {
     const navigation = useNavigation();
     const [activeButton, setActiveButton] = useState('TopicsScreen');
 
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Menu;
+export default Nav;
