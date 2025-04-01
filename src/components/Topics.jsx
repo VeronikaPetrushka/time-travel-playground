@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ImageBackground } from "react-native"
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import topics from "../constants/topics";
 
@@ -28,75 +28,77 @@ const Topics = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/back/2.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            {
-                index === 0 && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1, justifyContent: 'center'}}>
-                        <Image source={require('../assets/decor/logo.png')} style={styles.logo} />
-                        <Text style={[styles.text, {marginBottom: 30}]}>📝 The immersion in history begins here. Explore the greatest eras, discover key events and achievements of humanity, and learn how culture, daily life, and worldviews evolved. 🏛️🗝️ Text materials, illustrations 🎨, and interactive elements will help you view the past in a new light. 🔍🕰️</Text>
-                        <View style={{width: '100%'}}>
-                            <View style={[styles.line, {marginTop: 18, marginBottom: height * 0.15}]} />
-                            <Image source={require('../assets/decor/loading.png')} style={{position: 'absolute', alignSelf: 'center', top: -11, width: 60, height: 60, padding: 5, backgroundColor: '#000', resizeMode: 'contain'}} />
+                {
+                    index === 0 && (
+                        <View style={{width: '100%', alignItems: 'center', flexGrow: 1, justifyContent: 'center'}}>
+                            <Image source={require('../assets/decor/logo.png')} style={styles.logo} />
+                            <Text style={[styles.text, {marginBottom: 30}]}>📝 The immersion in history begins here. Explore the greatest eras, discover key events and achievements of humanity, and learn how culture, daily life, and worldviews evolved. 🏛️🗝️ Text materials, illustrations 🎨, and interactive elements will help you view the past in a new light. 🔍🕰️</Text>
+                            <View style={{width: '100%'}}>
+                                <View style={[styles.line, {marginTop: 18, marginBottom: height * 0.15}]} />
+                                <Image source={require('../assets/decor/loading.png')} style={{position: 'absolute', alignSelf: 'center', top: -11, width: 60, height: 60, padding: 5, backgroundColor: '#000', resizeMode: 'contain'}} />
+                            </View>
                         </View>
-                    </View>
-                )
-            }
+                    )
+                }
 
-            {
-                index === 1 && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
-                        <TouchableOpacity onPress={() => setSelected(null)}>
-                            <Image source={selected ? selected.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
-                        </TouchableOpacity>
-                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap', marginBottom: height * 0.5, marginLeft: 95}}>
+                {
+                    index === 1 && (
+                        <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
+                            <TouchableOpacity onPress={() => setSelected(null)}>
+                                <Image source={selected ? selected.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
+                            </TouchableOpacity>
+                            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap', marginBottom: height * 0.5, marginLeft: 95}}>
+                                {
+                                    topics.map((topic, index) => (
+                                        <TouchableOpacity key={index} onPress={() => setSelected(topic)}>
+                                            <Image source={topic.image} style={[styles.card, (index !== 0 || index !== 4) && {marginLeft: -70}, topic === selected && {display: 'none'}]} />
+                                        </TouchableOpacity>
+                                    ))
+                                }
+                                <View style={[styles.line, {marginTop: 10, zIndex: 10, marginLeft: -50}]} />
+                            </View>
+                        </View>
+                    )
+                }
+
+                {
+                    (index === 2 && selected !== null) && (
+                        <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
+                            <TouchableOpacity onPress={() => setSelectedItem(null)}>
+                                <Image source={selectedItem ? selectedItem.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
+                            </TouchableOpacity>
+                            <Text style={styles.title}>{selectedItem ? selectedItem.name : selected.name}</Text>
                             {
-                                topics.map((topic, index) => (
-                                    <TouchableOpacity key={index} onPress={() => setSelected(topic)}>
-                                        <Image source={topic.image} style={[styles.card, (index !== 0 || index !== 4) && {marginLeft: -70}, topic === selected && {display: 'none'}]} />
-                                    </TouchableOpacity>
-                                ))
+                                !selectedItem && (
+                                    <View style={[styles.line, {zIndex: 10, marginBottom: height * 0.05}]} />
+                                )
                             }
-                            <View style={[styles.line, {marginTop: 10, zIndex: 10, marginLeft: -50}]} />
+                            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', marginLeft: 70, marginTop: height * 0.02}}>
+                                {
+                                    selected.items.map((item, index) => (
+                                        <TouchableOpacity key={index} onPress={() => setSelectedItem(item)}>
+                                            <Image source={item.image} style={[styles.card, (index !== 0 || index !== 4) && {marginLeft: -70}, item === selectedItem && {display: 'none'}]} />
+                                        </TouchableOpacity>
+                                    ))
+                                }
+                            </View>
                         </View>
-                    </View>
-                )
-            }
+                    )
+                }
 
-            {
-                (index === 2 && selected !== null) && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
-                        <TouchableOpacity onPress={() => setSelectedItem(null)}>
-                            <Image source={selectedItem ? selectedItem.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
-                        </TouchableOpacity>
-                        <Text style={styles.title}>{selectedItem ? selectedItem.name : selected.name}</Text>
-                        {
-                            !selectedItem && (
-                                <View style={[styles.line, {zIndex: 10, marginBottom: height * 0.05}]} />
-                            )
-                        }
-                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', marginLeft: 70, marginTop: height * 0.02}}>
-                            {
-                                selected.items.map((item, index) => (
-                                    <TouchableOpacity key={index} onPress={() => setSelectedItem(item)}>
-                                        <Image source={item.image} style={[styles.card, (index !== 0 || index !== 4) && {marginLeft: -70}, item === selectedItem && {display: 'none'}]} />
-                                    </TouchableOpacity>
-                                ))
-                            }
-                        </View>
-                    </View>
-                )
-            }
+                {
+                    (index === 0 || selected !== null) && (
+                        <TouchableOpacity style={styles.btn} onPress={handleNext}>
+                            <Text style={styles.btnText}>{index === 0 ? 'Step Through' : index === 1 ? 'Commence' : 'Witness'}</Text>
+                        </TouchableOpacity>    
+                    )
+                }
 
-            {
-                (index === 0 || selected !== null) && (
-                    <TouchableOpacity style={styles.btn} onPress={handleNext}>
-                        <Text style={styles.btnText}>{index === 0 ? 'Step Through' : index === 1 ? 'Commence' : 'Witness'}</Text>
-                    </TouchableOpacity>    
-                )
-            }
-
-        </View>
+            </View>
+        </ImageBackground>
     )
 };
 
@@ -107,7 +109,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 40,
         paddingTop: height * 0.07,
-        backgroundColor: '#000',
         paddingBottom: height * 0.12
     },
 

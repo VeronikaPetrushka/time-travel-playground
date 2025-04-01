@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, Text, TouchableOpacity, Alert, StyleSheet, Dimensions, Switch, Image } from "react-native"
+import { View, Text, TouchableOpacity, Alert, StyleSheet, Dimensions, Switch, Image, ImageBackground } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMusic } from '../constants/music.js';
 
@@ -31,26 +31,28 @@ const Settings = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/back/2.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            <Image source={require('../assets/decor/logo.png')} style={styles.logo} />
+                <Image source={require('../assets/decor/logo.png')} style={styles.logo} />
 
-            <View style={styles.musicContainer}>
-                <View style={styles.musicInner}>
-                    <Text style={styles.title}>Music</Text>
-                    <Switch value={isPlaying} onValueChange={togglePlay} thumbColor="#cd2027" trackColor={{ false: "#ccc", true: "#c7c7c7" }} />
+                <View style={styles.musicContainer}>
+                    <View style={styles.musicInner}>
+                        <Text style={styles.title}>Music</Text>
+                        <Switch value={isPlaying} onValueChange={togglePlay} thumbColor="#cd2027" trackColor={{ false: "#ccc", true: "#c7c7c7" }} />
+                    </View>
+                    <View style={styles.musicInner}>
+                        <Text style={styles.title}>Vibration</Text>
+                        <Switch value={vibro} onValueChange={toggleVibro} thumbColor="#cd2027" trackColor={{ false: "#ccc", true: "#c7c7c7" }} />
+                    </View>
                 </View>
-                <View style={styles.musicInner}>
-                    <Text style={styles.title}>Vibration</Text>
-                    <Switch value={vibro} onValueChange={toggleVibro} thumbColor="#cd2027" trackColor={{ false: "#ccc", true: "#c7c7c7" }} />
-                </View>
+
+                <TouchableOpacity style={styles.btn} onPress={resetProgress}>
+                    <Text style={styles.btnText}>Reset Progress</Text>
+                </TouchableOpacity>    
+
             </View>
-
-            <TouchableOpacity style={styles.btn} onPress={resetProgress}>
-                <Text style={styles.btnText}>Reset Progress</Text>
-            </TouchableOpacity>    
-
-        </View>
+        </ImageBackground>
     )
 };
 
@@ -60,7 +62,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 40,
         paddingTop: height * 0.07,
-        backgroundColor: '#000',
         paddingBottom: height * 0.12
     },
 

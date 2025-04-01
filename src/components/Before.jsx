@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, TextInput, Alert } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, TextInput, Alert, ImageBackground } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { launchImageLibrary } from "react-native-image-picker";
 import { useNavigation } from "@react-navigation/native";
@@ -77,43 +77,45 @@ const Before = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/back/1.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            {
-                index === 0 && (
-                    <View style={{width: '100%', alignItems: 'center'}}>
-                        <Text style={styles.title}>Time Travel Playground</Text>
-                        <View style={styles.line} />
-                        <Text style={styles.text}>🔄 Loading into the past… Time Travel Playground is a place where time knows no bounds. Explore great eras, compare civilizations, and uncover the mysteries of the past through interactive scenarios. 🔎 Immerse yourself in history 📜 Compare epochs 🏺 Discover artifacts. Your journey through time begins now… ⏳</Text>
-                    </View>
-                )
-            }
+                {
+                    index === 0 && (
+                        <View style={{width: '100%', alignItems: 'center'}}>
+                            <Text style={styles.title}>Time Travel Playground</Text>
+                            <View style={styles.line} />
+                            <Text style={styles.text}>🔄 Loading into the past… Time Travel Playground is a place where time knows no bounds. Explore great eras, compare civilizations, and uncover the mysteries of the past through interactive scenarios. 🔎 Immerse yourself in history 📜 Compare epochs 🏺 Discover artifacts. Your journey through time begins now… ⏳</Text>
+                        </View>
+                    )
+                }
 
-            {
-                index === 1 && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
-                        <TouchableOpacity onPress={uploadAvatar}>
-                            <Image 
-                                source={typeof image === "string" ? { uri: image } : image} 
-                                style={styles.img} 
-                                />
-                        </TouchableOpacity>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Nickname"
-                            placeholderTextColor="#979797"
-                            value={nickname}
-                            onChangeText={setNickname}
-                        />
-                    </View>
-                )
-            }
+                {
+                    index === 1 && (
+                        <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
+                            <TouchableOpacity onPress={uploadAvatar}>
+                                <Image 
+                                    source={typeof image === "string" ? { uri: image } : image} 
+                                    style={styles.img} 
+                                    />
+                            </TouchableOpacity>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Nickname"
+                                placeholderTextColor="#979797"
+                                value={nickname}
+                                onChangeText={setNickname}
+                            />
+                        </View>
+                    )
+                }
 
-            <TouchableOpacity style={styles.btn} onPress={handleNext}>
-                <Text style={styles.btnText}>{index === 0 ? 'Step Through' : 'Create account'}</Text>
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.btn} onPress={handleNext}>
+                    <Text style={styles.btnText}>{index === 0 ? 'Step Through' : 'Create account'}</Text>
+                </TouchableOpacity>
 
-        </View>
+            </View>
+        </ImageBackground>
     )
 };
 
@@ -124,7 +126,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 40,
         paddingTop: height * 0.07,
-        backgroundColor: '#000'
     },
 
     title: {

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Modal, ScrollView } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Modal, ScrollView, ImageBackground } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from "@react-navigation/native";
 import game from "../constants/game";
@@ -95,119 +95,121 @@ const Game = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/back/2.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            {
-                index !== 0 && (
-                    <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end', marginBottom: height * 0.04}}>
-                        <Text style={styles.points}>{points}</Text>
-                        <View style={{width: 26, height: 26, marginLeft: 10}}>
-                            <Icons type={'points'} />
+                {
+                    index !== 0 && (
+                        <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end', marginBottom: height * 0.04}}>
+                            <Text style={styles.points}>{points}</Text>
+                            <View style={{width: 26, height: 26, marginLeft: 10}}>
+                                <Icons type={'points'} />
+                            </View>
+                        </View>    
+                    )
+                }
+
+                {
+                    index === 0 && (
+                        <View style={{width: '100%', alignItems: 'center', flexGrow: 1, justifyContent: 'center'}}>
+                            <Image source={require('../assets/decor/logo.png')} style={styles.logo} />
+                            <Text style={[styles.text, {marginBottom: 30}]}>🖐️🔀 Drag each artifact to the correct time period** 🏺⏳ and see how history evolves! 🔄📜 Can you place them all correctly? ✅ Test your knowledge 🧠 and explore the past in a fun 🎮 and interactive way! 🚀🔎</Text>
+                            <View style={{width: '100%'}}>
+                                <View style={[styles.line, {marginTop: 18, marginBottom: height * 0.15}]} />
+                                <Image source={require('../assets/decor/loading.png')} style={{position: 'absolute', alignSelf: 'center', top: -11, width: 60, height: 60, padding: 5, backgroundColor: '#000', resizeMode: 'contain'}} />
+                            </View>
                         </View>
-                    </View>    
-                )
-            }
+                    )
+                }
 
-            {
-                index === 0 && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1, justifyContent: 'center'}}>
-                        <Image source={require('../assets/decor/logo.png')} style={styles.logo} />
-                        <Text style={[styles.text, {marginBottom: 30}]}>🖐️🔀 Drag each artifact to the correct time period** 🏺⏳ and see how history evolves! 🔄📜 Can you place them all correctly? ✅ Test your knowledge 🧠 and explore the past in a fun 🎮 and interactive way! 🚀🔎</Text>
-                        <View style={{width: '100%'}}>
-                            <View style={[styles.line, {marginTop: 18, marginBottom: height * 0.15}]} />
-                            <Image source={require('../assets/decor/loading.png')} style={{position: 'absolute', alignSelf: 'center', top: -11, width: 60, height: 60, padding: 5, backgroundColor: '#000', resizeMode: 'contain'}} />
+                {
+                    index === 1 && (
+                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-around', flexWrap: 'wrap'}}>
+                            {
+                                game.map((item, index) => (
+                                    <View key={index} style={{marginBottom: height * 0.03, alignItems: 'center'}}>
+                                        <TouchableOpacity 
+                                            style={[styles.levelBtn, selectedLevel.level === item.level && unlockedLevels[item.level] && purchasedLevels[item.level] && {backgroundColor: '#cd2027'}]} 
+                                            onPress={() => unlockedLevels[item.level] && purchaseLevel(item) && setSelectedLevel(item)}
+                                            disabled={!unlockedLevels[item.level] || points < item.points}
+                                            >
+                                            <Text style={[styles.levelBtnText, selectedLevel.level === item.level && unlockedLevels[item.level] && purchasedLevels[item.level] && {color: '#fff'}]}>{item.level}</Text>
+                                        </TouchableOpacity>
+                                        {
+                                            !purchasedLevels[item.level] && !item[0] && (
+                                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                                    <Text style={styles.points}>{item.points}</Text>
+                                                    <View style={{width: 26, height: 26, marginLeft: 10}}>
+                                                        <Icons type={'points'} />
+                                                    </View>
+                                                </View>       
+                                            )
+                                        }
+                                    </View>
+                                ))
+                            }
+                            <View style={{width: '100%'}}>
+                                <View style={[styles.line, {marginTop: 30}]} />
+                                <Image source={require('../assets/decor/loading.png')} style={{position: 'absolute', alignSelf: 'center', top: 0, width: 60, height: 60, padding: 5, backgroundColor: '#000', resizeMode: 'contain'}} />
+                            </View>
                         </View>
-                    </View>
-                )
-            }
+                    )
+                }
 
-            {
-                index === 1 && (
-                    <View style={{width: '100%', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-around', flexWrap: 'wrap'}}>
-                        {
-                            game.map((item, index) => (
-                                <View key={index} style={{marginBottom: height * 0.03, alignItems: 'center'}}>
-                                    <TouchableOpacity 
-                                        style={[styles.levelBtn, selectedLevel.level === item.level && unlockedLevels[item.level] && purchasedLevels[item.level] && {backgroundColor: '#cd2027'}]} 
-                                        onPress={() => unlockedLevels[item.level] && purchaseLevel(item) && setSelectedLevel(item)}
-                                        disabled={!unlockedLevels[item.level] || points < item.points}
-                                        >
-                                        <Text style={[styles.levelBtnText, selectedLevel.level === item.level && unlockedLevels[item.level] && purchasedLevels[item.level] && {color: '#fff'}]}>{item.level}</Text>
-                                    </TouchableOpacity>
-                                    {
-                                        !purchasedLevels[item.level] && !item[0] && (
-                                            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                                <Text style={styles.points}>{item.points}</Text>
-                                                <View style={{width: 26, height: 26, marginLeft: 10}}>
-                                                    <Icons type={'points'} />
-                                                </View>
-                                            </View>       
-                                        )
-                                    }
-                                </View>
-                            ))
-                        }
-                        <View style={{width: '100%'}}>
-                            <View style={[styles.line, {marginTop: 30}]} />
-                            <Image source={require('../assets/decor/loading.png')} style={{position: 'absolute', alignSelf: 'center', top: 0, width: 60, height: 60, padding: 5, backgroundColor: '#000', resizeMode: 'contain'}} />
-                        </View>
-                    </View>
-                )
-            }
+                {
+                    (index === 0 || index === 1) && (
+                        <TouchableOpacity style={[styles.btn, !selectedLevel && {opacity: 0.5}]} disabled={!selectedLevel} onPress={handleNext}>
+                            <Text style={styles.btnText}>{index === 0 ? 'Time to play' : 'Let`s go'}</Text>
+                        </TouchableOpacity>        
+                    )
+                }
 
-            {
-                (index === 0 || index === 1) && (
-                    <TouchableOpacity style={[styles.btn, !selectedLevel && {opacity: 0.5}]} disabled={!selectedLevel} onPress={handleNext}>
-                        <Text style={styles.btnText}>{index === 0 ? 'Time to play' : 'Let`s go'}</Text>
-                    </TouchableOpacity>        
-                )
-            }
-
-            {index === 2 && (
-                <View style={styles.gameContainer}>
-                    <ScrollView contentContainerStyle={styles.itemsContainer}>
-                        {selectedLevel.items.map((item, idx) => (
-                            <TouchableOpacity key={idx} onPress={() => handleItemSelect(item)}>
-                                <Image source={item} style={styles.itemImage} />
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                    <View style={styles.selectedItemsContainer}>
-                        <ScrollView contentContainerStyle={styles.scroll}>
-                            {selectedItems.map((item, idx) => (
-                                <TouchableOpacity key={idx} onPress={() => handleItemUnselect(item)}>
-                                    <Image key={idx} source={item} style={styles.itemImage} />
+                {index === 2 && (
+                    <View style={styles.gameContainer}>
+                        <ScrollView contentContainerStyle={styles.itemsContainer}>
+                            {selectedLevel.items.map((item, idx) => (
+                                <TouchableOpacity key={idx} onPress={() => handleItemSelect(item)}>
+                                    <Image source={item} style={styles.itemImage} />
                                 </TouchableOpacity>
                             ))}
                         </ScrollView>
+                        <View style={styles.selectedItemsContainer}>
+                            <ScrollView contentContainerStyle={styles.scroll}>
+                                {selectedItems.map((item, idx) => (
+                                    <TouchableOpacity key={idx} onPress={() => handleItemUnselect(item)}>
+                                        <Image key={idx} source={item} style={styles.itemImage} />
+                                    </TouchableOpacity>
+                                ))}
+                            </ScrollView>
+                        </View>
                     </View>
-                </View>
-            )}
+                )}
 
-            {index === 2 && (
-                <TouchableOpacity style={styles.btn} onPress={checkSelection}>
-                    <Text style={styles.btnText}>Check</Text>
-                </TouchableOpacity>
-            )}
+                {index === 2 && (
+                    <TouchableOpacity style={styles.btn} onPress={checkSelection}>
+                        <Text style={styles.btnText}>Check</Text>
+                    </TouchableOpacity>
+                )}
 
-            <Modal 
-                visible={modalVisible} 
-                transparent={true}
-                animationType="fade"
-                onRequestClose={() => setModalVisible(false)}
-                >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalText}>{isCorrect ? selectedLevel.text : "❌ Time glitch detected! Try again!"}</Text>
-                        <Image source={require('../assets/decor/game.png')} style={{width: 160, height: height * 0.2, resizeMode: 'contain', marginVertical: 30}} />
-                        <TouchableOpacity style={styles.modalBtn} onPress={handleGameOver}>
-                            <Text style={styles.modalBtnText}>Back to start</Text>
-                        </TouchableOpacity>
+                <Modal 
+                    visible={modalVisible} 
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() => setModalVisible(false)}
+                    >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalText}>{isCorrect ? selectedLevel.text : "❌ Time glitch detected! Try again!"}</Text>
+                            <Image source={require('../assets/decor/game.png')} style={{width: 160, height: height * 0.2, resizeMode: 'contain', marginVertical: 30}} />
+                            <TouchableOpacity style={styles.modalBtn} onPress={handleGameOver}>
+                                <Text style={styles.modalBtnText}>Back to start</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-            </Modal>
+                </Modal>
 
-        </View>
+            </View>
+        </ImageBackground>
     )
 };
 
@@ -217,7 +219,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 40,
         paddingTop: height * 0.07,
-        backgroundColor: '#000',
         paddingBottom: height * 0.12
     },
 

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from "react-native"
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView, ImageBackground } from "react-native"
 import { useNavigation } from "@react-navigation/native";
 import Icons from "./Icons";
 
@@ -17,30 +17,32 @@ const AncientRead = ({ topic, firstItem, secondItem  }) => {
     console.log('second: ', second)
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/back/2.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            <TouchableOpacity style={styles.back} onPress={() => navigation.goBack('')}>
-                <Icons type={'back'} />
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.back} onPress={() => navigation.goBack('')}>
+                    <Icons type={'back'} />
+                </TouchableOpacity>
 
-            <View style={{width: '100%', flexDirection: 'row', flexGrow: 1, justifyContent: 'space-between', alignItems: 'flex-start'}}>
-                <ScrollView style={{width: '50%'}}>
-                    <Text style={styles.title}>{firstItem.name}</Text>
-                    {first.description.map((desc, i) => (
-                        <Text key={i} style={styles.text}>{desc}</Text>
-                    ))}
-                    <View style={{height: 100}} />
-                </ScrollView>
-                <ScrollView style={{width: '50%'}}>
-                    <Text style={styles.title}>{secondItem.name}</Text>
-                    {second.description.map((desc, i) => (
-                        <Text key={i} style={styles.text}>{desc}</Text>
-                    ))}
-                    <View style={{height: 100}} />
-                </ScrollView>
+                <View style={{width: '100%', flexDirection: 'row', flexGrow: 1, justifyContent: 'space-between', alignItems: 'flex-start'}}>
+                    <ScrollView style={{width: '50%'}}>
+                        <Text style={styles.title}>{firstItem.name}</Text>
+                        {first.description.map((desc, i) => (
+                            <Text key={i} style={styles.text}>{desc}</Text>
+                        ))}
+                        <View style={{height: 100}} />
+                    </ScrollView>
+                    <ScrollView style={{width: '50%'}}>
+                        <Text style={styles.title}>{secondItem.name}</Text>
+                        {second.description.map((desc, i) => (
+                            <Text key={i} style={styles.text}>{desc}</Text>
+                        ))}
+                        <View style={{height: 100}} />
+                    </ScrollView>
+                </View>
+
             </View>
-
-        </View>
+        </ImageBackground>
     )
 };
 
@@ -51,7 +53,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 40,
         paddingTop: height * 0.12,
-        backgroundColor: '#000',
     },
 
     back: {

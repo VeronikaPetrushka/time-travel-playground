@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ImageBackground } from "react-native"
 import { useFocusEffect } from "@react-navigation/native";
 import artifacts from "../constants/artifacts";
 import Icons from "./Icons";
@@ -40,72 +40,74 @@ const Artifacts = () => {
     const correct = selectedFirst?.pair === selectedSecond?.image;
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/back/2.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            {
-                index === 0 && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1, justifyContent: 'center'}}>
-                        <Image source={require('../assets/decor/logo.png')} style={styles.logo} />
-                        <Text style={[styles.text, {marginBottom: 30}]}>Artifacts vs Modern Times! Choose an ancient artifact and find its modern counterpart. How have familiar objects changed over time? Compare the Egyptian scepter with a selfie stick 📱 or an ancient amulet with a modern talisman ✨. Discover how ancient inventions and symbols of power transformed into everyday items today. Embark on an exciting journey through the ages! ⏳</Text>
-                        <View style={{width: '100%'}}>
+                {
+                    index === 0 && (
+                        <View style={{width: '100%', alignItems: 'center', flexGrow: 1, justifyContent: 'center'}}>
+                            <Image source={require('../assets/decor/logo.png')} style={styles.logo} />
+                            <Text style={[styles.text, {marginBottom: 30}]}>Artifacts vs Modern Times! Choose an ancient artifact and find its modern counterpart. How have familiar objects changed over time? Compare the Egyptian scepter with a selfie stick 📱 or an ancient amulet with a modern talisman ✨. Discover how ancient inventions and symbols of power transformed into everyday items today. Embark on an exciting journey through the ages! ⏳</Text>
+                            <View style={{width: '100%'}}>
+                                <View style={[styles.line, {marginTop: 18, marginBottom: height * 0.15}]} />
+                                <Image source={require('../assets/decor/loading.png')} style={{position: 'absolute', alignSelf: 'center', top: -11, width: 60, height: 60, padding: 5, backgroundColor: '#000', resizeMode: 'contain'}} />
+                            </View>
+                        </View>
+                    )
+                }
+
+                {
+                    index === 1 && (
+                        <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
+                            <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                <TouchableOpacity onPress={() => setSelectedFirst(null)}>
+                                    <Image source={selectedFirst ? selectedFirst.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => setSelectedSecond(null)}>
+                                    <Image source={selectedSecond ? selectedSecond.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap', marginBottom: height * 0.5, marginLeft: 95}}>
+                                {
+                                    artifacts.map((item, index) => (
+                                        <TouchableOpacity key={index} onPress={() => handleSelection(item)}>
+                                            <Image source={item.image} style={[styles.card, (index !== 0 || index !== 4) && {marginLeft: -70}, (item === selectedFirst || item === selectedSecond) && {display: 'none'}]} />
+                                        </TouchableOpacity>
+                                    ))
+                                }
+                                <View style={[styles.line, {marginTop: 10, zIndex: 10, marginLeft: -50}]} />
+                            </View>
+                        </View>
+                    )
+                }
+
+                {
+                    (index === 2 && selectedFirst !== null && selectedSecond !== null) && (
+                        <View style={{width: '100%', alignItems: 'center', flexGrow: 1, marginTop: height * 0.15}}>
+                            <Text style={[styles.text, {textAlign: 'center'}]}>{correct ? selectedFirst.description : 'You are wrong! Try again and find the correct pair.'}</Text>
                             <View style={[styles.line, {marginTop: 18, marginBottom: height * 0.15}]} />
-                            <Image source={require('../assets/decor/loading.png')} style={{position: 'absolute', alignSelf: 'center', top: -11, width: 60, height: 60, padding: 5, backgroundColor: '#000', resizeMode: 'contain'}} />
                         </View>
-                    </View>
-                )
-            }
+                    )
+                }
 
-            {
-                index === 1 && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
-                        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                            <TouchableOpacity onPress={() => setSelectedFirst(null)}>
-                                <Image source={selectedFirst ? selectedFirst.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setSelectedSecond(null)}>
-                                <Image source={selectedSecond ? selectedSecond.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
-                            </TouchableOpacity>
+                {
+                    (index !== 2 || (selectedFirst !== null && selectedSecond !== null)) && (
+                        <TouchableOpacity style={[styles.btn, index === 1 && (!selectedFirst || !selectedSecond) && {opacity: 0.5}]} disabled={index === 1 && (!selectedFirst || !selectedSecond)} onPress={handleNext}>
+                            <Text style={styles.btnText}>{index === 0 ? 'Step Through' : index === 1 ? 'Check' : 'Back to selection'}</Text>
+                        </TouchableOpacity>    
+                    )
+                }
+
+                {
+                    index === 2 && (
+                        <View style={{width: 51, height: 51, position: 'absolute', bottom: height * 0.3, alignSelf: 'center'}}>
+                            <Icons type={correct ? 'correct' : 'wrong'} />
                         </View>
-                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap', marginBottom: height * 0.5, marginLeft: 95}}>
-                            {
-                                artifacts.map((item, index) => (
-                                    <TouchableOpacity key={index} onPress={() => handleSelection(item)}>
-                                        <Image source={item.image} style={[styles.card, (index !== 0 || index !== 4) && {marginLeft: -70}, (item === selectedFirst || item === selectedSecond) && {display: 'none'}]} />
-                                    </TouchableOpacity>
-                                ))
-                            }
-                            <View style={[styles.line, {marginTop: 10, zIndex: 10, marginLeft: -50}]} />
-                        </View>
-                    </View>
-                )
-            }
+                    )
+                }
 
-            {
-                (index === 2 && selectedFirst !== null && selectedSecond !== null) && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1, marginTop: height * 0.15}}>
-                        <Text style={[styles.text, {textAlign: 'center'}]}>{correct ? selectedFirst.description : 'You are wrong! Try again and find the correct pair.'}</Text>
-                        <View style={[styles.line, {marginTop: 18, marginBottom: height * 0.15}]} />
-                    </View>
-                )
-            }
-
-            {
-                (index !== 2 || (selectedFirst !== null && selectedSecond !== null)) && (
-                    <TouchableOpacity style={[styles.btn, index === 1 && (!selectedFirst || !selectedSecond) && {opacity: 0.5}]} disabled={index === 1 && (!selectedFirst || !selectedSecond)} onPress={handleNext}>
-                        <Text style={styles.btnText}>{index === 0 ? 'Step Through' : index === 1 ? 'Check' : 'Back to selection'}</Text>
-                    </TouchableOpacity>    
-                )
-            }
-
-            {
-                index === 2 && (
-                    <View style={{width: 51, height: 51, position: 'absolute', bottom: height * 0.3, alignSelf: 'center'}}>
-                        <Icons type={correct ? 'correct' : 'wrong'} />
-                    </View>
-                )
-            }
-
-        </View>
+            </View>
+        </ImageBackground>
     )
 };
 
@@ -116,7 +118,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 40,
         paddingTop: height * 0.07,
-        backgroundColor: '#000',
         paddingBottom: height * 0.12
     },
 

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react"
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, ImageBackground } from "react-native"
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import ancient from "../constants/ancient";
 
@@ -38,78 +38,80 @@ const Topics = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/back/2.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            {
-                index === 0 && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1, justifyContent: 'center'}}>
-                        <Image source={require('../assets/decor/logo.png')} style={styles.logo} />
-                        <Text style={[styles.text, {marginBottom: 30}]}>Step into a world where the past, present, and future intertwine! 🌍✨ Explore different eras 🏺🏰🏙️, compare technologies 🏗️📱🤖, cultures 🎭🎶📚, and social norms 🏛️⚖️👥 to see how the world has changed. Select a time period 🕰️ and embark on an exciting journey through time! 🔮</Text>
-                        <View style={{width: '100%'}}>
-                            <View style={[styles.line, {marginTop: 18, marginBottom: height * 0.15}]} />
-                            <Image source={require('../assets/decor/loading.png')} style={{position: 'absolute', alignSelf: 'center', top: -11, width: 60, height: 60, padding: 5, backgroundColor: '#000', resizeMode: 'contain'}} />
+                {
+                    index === 0 && (
+                        <View style={{width: '100%', alignItems: 'center', flexGrow: 1, justifyContent: 'center'}}>
+                            <Image source={require('../assets/decor/logo.png')} style={styles.logo} />
+                            <Text style={[styles.text, {marginBottom: 30}]}>Step into a world where the past, present, and future intertwine! 🌍✨ Explore different eras 🏺🏰🏙️, compare technologies 🏗️📱🤖, cultures 🎭🎶📚, and social norms 🏛️⚖️👥 to see how the world has changed. Select a time period 🕰️ and embark on an exciting journey through time! 🔮</Text>
+                            <View style={{width: '100%'}}>
+                                <View style={[styles.line, {marginTop: 18, marginBottom: height * 0.15}]} />
+                                <Image source={require('../assets/decor/loading.png')} style={{position: 'absolute', alignSelf: 'center', top: -11, width: 60, height: 60, padding: 5, backgroundColor: '#000', resizeMode: 'contain'}} />
+                            </View>
                         </View>
-                    </View>
-                )
-            }
+                    )
+                }
 
-            {
-                index === 1 && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
-                        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                            <TouchableOpacity onPress={() => setSelectedFirst(null)}>
-                                <Image source={selectedFirst ? selectedFirst.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setSelectedSecond(null)}>
-                                <Image source={selectedSecond ? selectedSecond.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
-                            </TouchableOpacity>
+                {
+                    index === 1 && (
+                        <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
+                            <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                <TouchableOpacity onPress={() => setSelectedFirst(null)}>
+                                    <Image source={selectedFirst ? selectedFirst.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => setSelectedSecond(null)}>
+                                    <Image source={selectedSecond ? selectedSecond.image : require('../assets/decor/cardholder.png')} style={styles.selectedCard} />
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap', marginBottom: height * 0.5, marginLeft: 95}}>
+                                {
+                                    ancient.map((item, index) => (
+                                        <TouchableOpacity key={index} onPress={() => handleSelection(item)}>
+                                            <Image source={item.image} style={[styles.card, (index !== 0 || index !== 4) && {marginLeft: -70}, (item === selectedFirst || item === selectedSecond) && {display: 'none'}]} />
+                                        </TouchableOpacity>
+                                    ))
+                                }
+                                <View style={[styles.line, {marginTop: 10, zIndex: 10, marginLeft: -50}]} />
+                            </View>
                         </View>
-                        <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap', marginBottom: height * 0.5, marginLeft: 95}}>
+                    )
+                }
+
+                {
+                    (index === 2 && selectedFirst !== null && selectedSecond !== null) && (
+                        <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
+                            <Text style={[styles.text, {textAlign: 'center', marginTop: height * 0.15, fontSize: 20, marginBottom: height * 0.05}]}>Now choose the parameters to begin your journey through the eras.</Text>
                             {
-                                ancient.map((item, index) => (
-                                    <TouchableOpacity key={index} onPress={() => handleSelection(item)}>
-                                        <Image source={item.image} style={[styles.card, (index !== 0 || index !== 4) && {marginLeft: -70}, (item === selectedFirst || item === selectedSecond) && {display: 'none'}]} />
+                                ancient[0].items.map((item, index) => (
+                                    <TouchableOpacity key={index} style={[styles.topicBtn, selectedTopic === item && {backgroundColor: '#fff'}]} onPress={() => setSelectedTopic(item)}>
+                                        <Text style={[styles.topicBtnText, selectedTopic === item && {color: '#000'}]}>{item.topic}</Text>
                                     </TouchableOpacity>
                                 ))
                             }
-                            <View style={[styles.line, {marginTop: 10, zIndex: 10, marginLeft: -50}]} />
                         </View>
-                    </View>
-                )
-            }
+                    )
+                }
 
-            {
-                (index === 2 && selectedFirst !== null && selectedSecond !== null) && (
-                    <View style={{width: '100%', alignItems: 'center', flexGrow: 1}}>
-                        <Text style={[styles.text, {textAlign: 'center', marginTop: height * 0.15, fontSize: 20, marginBottom: height * 0.05}]}>Now choose the parameters to begin your journey through the eras.</Text>
-                        {
-                            ancient[0].items.map((item, index) => (
-                                <TouchableOpacity key={index} style={[styles.topicBtn, selectedTopic === item && {backgroundColor: '#fff'}]} onPress={() => setSelectedTopic(item)}>
-                                    <Text style={[styles.topicBtnText, selectedTopic === item && {color: '#000'}]}>{item.topic}</Text>
-                                </TouchableOpacity>
-                            ))
-                        }
-                    </View>
-                )
-            }
+                {
+                    (index !== 2 || (selectedFirst !== null && selectedSecond !== null) || selectedTopic) && (
+                        <TouchableOpacity 
+                            style={[styles.btn, 
+                                index === 1 && (!selectedFirst || !selectedSecond) && {opacity: 0.5},
+                                index === 2 && !selectedTopic && {opacity: 0.5
 
-            {
-                (index !== 2 || (selectedFirst !== null && selectedSecond !== null) || selectedTopic) && (
-                    <TouchableOpacity 
-                        style={[styles.btn, 
-                            index === 1 && (!selectedFirst || !selectedSecond) && {opacity: 0.5},
-                            index === 2 && !selectedTopic && {opacity: 0.5
+                                }]} 
+                                disabled={index === 1 && (!selectedFirst || !selectedSecond) || index === 2 && !selectedTopic}
+                                onPress={handleNext} 
+                                >
+                            <Text style={styles.btnText}>{index === 0 ? 'Step Through' : index === 1 ? 'Continue' : 'Find out'}</Text>
+                        </TouchableOpacity>    
+                    )
+                }
 
-                            }]} 
-                            disabled={index === 1 && (!selectedFirst || !selectedSecond) || index === 2 && !selectedTopic}
-                            onPress={handleNext} 
-                            >
-                        <Text style={styles.btnText}>{index === 0 ? 'Step Through' : index === 1 ? 'Continue' : 'Find out'}</Text>
-                    </TouchableOpacity>    
-                )
-            }
-
-        </View>
+            </View>
+        </ImageBackground>
     )
 };
 
@@ -120,7 +122,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 40,
         paddingTop: height * 0.07,
-        backgroundColor: '#000',
         paddingBottom: height * 0.12
     },
 

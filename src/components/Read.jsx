@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView } from "react-native"
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, ScrollView, ImageBackground } from "react-native"
 import { useNavigation } from "@react-navigation/native";
 import Icons from "./Icons";
 
@@ -8,20 +8,22 @@ const Read = ({ item }) => {
     const navigation = useNavigation();
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/back/2.png')} style={{flex: 1}}>
+            <View style={styles.container}>
 
-            <TouchableOpacity style={styles.back} onPress={() => navigation.goBack('')}>
-                <Icons type={'back'} />
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.back} onPress={() => navigation.goBack('')}>
+                    <Icons type={'back'} />
+                </TouchableOpacity>
 
-            <Image source={item.image} style={styles.image} />
+                <Image source={item.image} style={styles.image} />
 
-            <ScrollView style={{width: '100%'}}>
-                <Text style={styles.text}>{item.description}</Text>
-                <View style={{height: 100}} />
-            </ScrollView>
+                <ScrollView style={{width: '100%'}}>
+                    <Text style={styles.text}>{item.description}</Text>
+                    <View style={{height: 100}} />
+                </ScrollView>
 
-        </View>
+            </View>
+        </ImageBackground>
     )
 };
 
@@ -32,7 +34,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 40,
         paddingTop: height * 0.07,
-        backgroundColor: '#000',
     },
 
     back: {
