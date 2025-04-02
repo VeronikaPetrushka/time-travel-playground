@@ -33,11 +33,11 @@ const App = () => {
     useEffect(() => {
           const animationTimeout = setTimeout(() => {
           slideToNextLoader();
-    }, 1500);
+    }, 1000);
 
     const navigation = setTimeout(() => {
           navigateToMenu();
-          }, 4000);
+          }, 2500);
 
           return () => {
                 clearTimeout(animationTimeout);
@@ -49,12 +49,12 @@ const App = () => {
           Animated.parallel([
           Animated.timing(slideAnimation1, {
                 toValue: -Dimensions.get('window').width,
-                duration: 1500,
+                duration: 1000,
                 useNativeDriver: true,
           }),
           Animated.timing(slideAnimation2, {
                 toValue: 0,
-                duration: 1500,
+                duration: 1000,
                 useNativeDriver: true,
                 }),
           ]).start(() => {
@@ -74,7 +74,7 @@ const App = () => {
                   screenOptions={{
                   headerShown: false,
                   animation: 'fade',
-                  animationDuration: 1000,
+                  animationDuration: 900,
                 }}>
                   {currentLoader < 2 ? (
                         <Stack.Screen name="Loading" options={{ headerShown: false }}>
